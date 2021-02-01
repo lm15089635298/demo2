@@ -18,7 +18,7 @@ a{
   display: block;
 }
 .home-featrue{
-
+  
 }
 .home-featrue img{
   width: 100%;

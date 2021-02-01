@@ -31,6 +31,7 @@ a{
   color:purple;
 }
 .recommend{
+  
   display: flex;
   width: 100%;
   text-align: center;

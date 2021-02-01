@@ -28,28 +28,19 @@
 <script>
 export default {
   name: "HomeSwiper",
-  props: {
-    interval: {
-      type: Number,
-      default: 3000
-    },
-    animDuration: {
-      type: Number,
-      default: 300
-    },
-    moveRatio: {
-      type: Number,
-      default: 0.25
-    },
+  props:{
     banners: {
       type: Array,
       default() {
         return [];
       }
-    }
+    },
   },
   data() {
     return {
+    interval: 3000,
+    animDuration: 300,
+      moveRatio:0.25,
       slideCount: 0, //元素个数
       totalWidth: 0, //swiper的宽度
       swiperStyle: {}, //swiper的样式
@@ -72,7 +63,7 @@ export default {
       this.playTimer = window.setInterval(() => {
         this.currentIndex++;
         this.scrollContent(-this.currentIndex * this.totalWidth);
-        //console.log(-this.currentIndex * this.totalWidth)
+        console.log(-this.currentIndex * this.totalWidth)
       }, this.interval);
     },
     stopTimer() {
@@ -122,6 +113,7 @@ export default {
       let slidesEls = swiperEl.getElementsByClassName("swiper_item");
       //2、保存个数
       this.slideCount = slidesEls.length;
+      console.log(this.slideCount)
       //3、如果大于1个，在前后分别添加一个slide
       if (this.slideCount > 1) {
         let cloneFirst = slidesEls[0].cloneNode(true);
@@ -196,38 +188,6 @@ export default {
       this.startTimer();
     }
   }
-  //   //点击小圆点切换照片
-  //   change_img(index) {
-  //     this.mark = index;
-  //   },
-  //   //下一张
-  //   next_img() {
-  //     this.mark++;
-  //     if (this.mark >= 4) {
-  //       this.mark = 0;
-  //     }
-  //   },
-  //   //自动播放
-  //   autoplay() {
-  //     this.timer = setInterval(this.next_img, 3000);
-  //   },
-  //   //清除定时器
-  //   clear() {
-  //     clearInterval(this.timer);
-  //     this.timer = null;
-  //     console.log(this.timer);
-  //   },
-  //   //开启定时器
-  //   start() {
-  //     this.timer = setInterval(this.next_img, 3000);
-  //     console.log(this.timer);
-  //   },
-  //   //手指移动
-  //   move(e) {
-  //     const x = e.touches[0].clientX;
-  //     console.log(x);
-  //   }
-  // }
 };
 </script>
 
