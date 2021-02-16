@@ -14,6 +14,8 @@
       <detail-comment ref="comment" :commentInfo="commentInfo" />
       <good ref="recomend" :goods="recommend" />
     </scroll>
+    <back-top @click.native="back_top" v-show="isShowBackTop" />
+    <detail-bottom-bar/>
   </div>
 </template>
 
@@ -31,6 +33,8 @@ import { debounce } from "../../common/utils"; //防抖函数
 import DetailParams from "./DetailParams.vue";
 import DetailComment from "./DetailComment";
 import Good from "../../components/goods/goods.vue";
+import DetailBottomBar from './DetailBottomBar'
+import {backtopMixin} from '../../common/mixin'
 export default {
   components: {
     DetailNavBar,
@@ -42,9 +46,12 @@ export default {
     DetailImage,
     DetailParams,
     DetailComment,
-    Good
+    Good,
+    DetailBottomBar,
+    
   },
   name: "Detail",
+  mixins:[backtopMixin],
   data() {
     return {
       iid: null,
@@ -91,9 +98,9 @@ export default {
     this.getscrollToY = debounce(() => {
       this.scrollToY = [];
       this.scrollToY.push(0);
-      this.scrollToY.push(this.$refs.params.$el.offsetTop);
-      this.scrollToY.push(this.$refs.comment.$el.offsetTop);
-      this.scrollToY.push(this.$refs.recomend.$el.offsetTop);
+      this.scrollToY.push(this.$refs.params.$el.offsetTop - 44);
+      this.scrollToY.push(this.$refs.comment.$el.offsetTop - 44);
+      this.scrollToY.push(this.$refs.recomend.$el.offsetTop - 44);
       console.log(this.scrollToY);
     }, 200);
   },
@@ -105,6 +112,8 @@ export default {
       this.getscrollToY();
     });
   },
+  computed:{
+  },
   methods: {
     tabClick(index) {
       console.log(this.scrollToY[index]);
@@ -113,6 +122,7 @@ export default {
     //滚动到对应区域高亮
     detailScroll(position) {
       const d_Y = -position.y;
+      this.isShowBackTop = d_Y > 2000
       if (d_Y > 0 && d_Y <= this.scrollToY[1]) {
         this.$refs.nav.currentIndex = 0;
       } else if (d_Y > this.scrollToY[1] && d_Y <= this.scrollToY[2]){
@@ -121,7 +131,11 @@ export default {
         this.$refs.nav.currentIndex = 2;
       } else if( d_Y > this.scrollToY[3])
         this.$refs.nav.currentIndex = 3;
-    }
+    },
+    //点击返回顶部
+    // back_top(){
+    //   this.$refs.scroll.backtop()
+    // }
   }
 };
 </script>
@@ -135,12 +149,15 @@ export default {
   background-color: #fff;
 }
 .d-navbar {
-  position: relative;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0px;
   z-index: 1;
   background-color: #fff;
 }
 .content {
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 44px);
   background-color: #fff;
 }
 .D-tabbar {

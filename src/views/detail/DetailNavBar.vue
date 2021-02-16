@@ -1,21 +1,19 @@
 <template>
-  <div>
-    <nav-bar>
-      <div slot="left" class="back" @click="back_click">
-        <img src="../../assets/img/home/back.svg" alt="">
+  <nav-bar>
+    <div slot="left" class="back" @click="back_click">
+      <img src="../../assets/img/home/back.svg" alt="" />
+    </div>
+    <div slot="center" class="titles">
+      <div
+        v-for="(item, index) in titles"
+        class="titles-item"
+        :class="{ active: index === currentIndex }"
+        @click="title_click(index)"
+      >
+        {{ item }}
       </div>
-      <div slot="center" class="titles">
-        <div
-          v-for="(item, index) in titles"
-          class="titles-item"
-          :class="{ active: index === currentIndex }"
-          @click="title_click(index)"
-        >
-          {{ item }}
-        </div>
-      </div></nav-bar
-    >
-  </div>
+    </div>
+  </nav-bar>
 </template>
 
 <script>
@@ -32,9 +30,9 @@ export default {
   methods: {
     title_click(index) {
       this.currentIndex = index;
-      this.$emit('tab_click',index)
+      this.$emit("tab_click", index);
     },
-    back_click(){
+    back_click() {
       this.$router.back();
     }
   }
@@ -53,7 +51,7 @@ export default {
 .active {
   color: #ff8198;
 }
-.back{
+.back {
   margin-top: 5px;
 }
 </style>

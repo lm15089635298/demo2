@@ -26,6 +26,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .goods {
+  
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;

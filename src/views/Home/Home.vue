@@ -178,7 +178,7 @@ export default {
 .home-nav {
   background-color: #ff8198;
   color: aliceblue;
-  border-bottom: 2px solid #ff8198;
+  border-bottom: 3px solid #ff8198;
   /* position: fixed;
   left: 0;
   right: 0;
