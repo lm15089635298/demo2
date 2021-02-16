@@ -1,6 +1,6 @@
 <template>
     <div id="hy-swiper">
-      <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
+      <div class="swiper" @touchstart="touchStart($event)" @touchmove="touchMove($event)" @touchend="touchEnd($event)">
         <slot></slot>
       </div>
       <slot name="indicator">
@@ -50,7 +50,7 @@
 
         // 2.开启定时器
         this.startTimer();
-      }, 100)
+      }, 3000)
     },
     methods: {
 		  /**

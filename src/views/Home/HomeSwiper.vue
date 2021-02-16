@@ -8,7 +8,7 @@
     >
       <div class="swiper_item" v-for="(img, index) in banners">
         <a href="#">
-          <img :src="img.image" alt="" />
+          <img :src="img.image" @load="swiper_load" alt="" />
         </a>
       </div>
       </div>
@@ -41,12 +41,12 @@ export default {
     interval: 3000,
     animDuration: 300,
       moveRatio:0.25,
-      slideCount: 0, //元素个数
+      slideCount: 8, //元素个数
       totalWidth: 0, //swiper的宽度
       swiperStyle: {}, //swiper的样式
       currentIndex: 1, //当前的index
       scrolling: false, //是否正在滚动
-      
+      isLoad:false
     };
   },
   mounted() {
@@ -55,7 +55,7 @@ export default {
       this.handelDom();
       //开启定时器
       this.startTimer();
-    }, 100);
+    }, 3000);
   },
   methods: {
     //定时器操作
@@ -63,7 +63,7 @@ export default {
       this.playTimer = window.setInterval(() => {
         this.currentIndex++;
         this.scrollContent(-this.currentIndex * this.totalWidth);
-        console.log(-this.currentIndex * this.totalWidth)
+        
       }, this.interval);
     },
     stopTimer() {
@@ -96,7 +96,7 @@ export default {
           this.setTransform(-this.currentIndex * this.totalWidth);
         }
         //2、结束移动后的回调
-        this.$emit("transitionEnd", this.currentIndex - 1);
+        //this.$emit("transitionEnd", this.currentIndex - 1);
       }, this.animDuration);
     },
     //设置滚动的位置
@@ -113,7 +113,7 @@ export default {
       let slidesEls = swiperEl.getElementsByClassName("swiper_item");
       //2、保存个数
       this.slideCount = slidesEls.length;
-      console.log(this.slideCount)
+      
       //3、如果大于1个，在前后分别添加一个slide
       if (this.slideCount > 1) {
         let cloneFirst = slidesEls[0].cloneNode(true);
@@ -186,6 +186,12 @@ export default {
       this.scrollContent(-this.currentIndex * this.totalWidth);
       //3、添加定时器
       this.startTimer();
+    },
+    swiper_load(){
+      if(!this.isLoad){
+        this.$emit('swiperImageLoad')
+        this.isLoad = true
+      }
     }
   }
 };
@@ -201,6 +207,7 @@ export default {
   display: flex;
 }
 .swiper_item{
+  
   width: 100%;
   flex-shrink: 0;
 }

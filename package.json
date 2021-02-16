@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "better-scroll": "^2.1.4",
+    "mongoose": "^5.11.15",
     "swiper": "^6.4.9",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
