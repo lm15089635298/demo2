@@ -6,7 +6,7 @@
       <slot name="indicator">
       </slot>
       <div class="indicator">
-        <slot name="indicator" v-if="showIndicator && slideCount>1">
+        <slot name="indicator" >
           <div v-for="(item, index) in slideCount" class="indi-item" :class="{active: index === currentIndex-1}" :key="index"></div>
         </slot>
       </div>
@@ -128,7 +128,7 @@
         if (this.slideCount > 1) {
           let cloneFirst = slidesEls[0].cloneNode(true);
           let cloneLast = slidesEls[this.slideCount - 1].cloneNode(true);
-          swiperEl.insertBefore(cloneLast, slidesEls[0]);
+          swiperEl.insertBefore(cloneLast,slidesEls[0]);
           swiperEl.appendChild(cloneFirst);
           this.totalWidth = swiperEl.offsetWidth;
           this.swiperStyle = swiperEl.style;

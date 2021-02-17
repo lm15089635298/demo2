@@ -91,14 +91,14 @@ export default {
     });
   },
   activated(){
-    this.$refs.scroll.scrollTo(0, -this.saveY,0);
+    console.log('进入home')
+    this.$refs.scroll.scrollTo(0, this.saveY,0);
     this.$refs.scroll.refresh()
   },
   deactivated(){
     //记录离开页面时y坐标
     this.saveY = this.$refs.scroll.getScrollY()
-    console.log(this.saveY)
-    
+    console.log('离开时坐标'+ this.saveY)
   },
   computed: {
     goodsType() {
@@ -165,7 +165,7 @@ export default {
     }
   },
   destroyed() {
-    console.log(1);
+    
   }
 };
 </script>

@@ -6,7 +6,7 @@ const Home = () =>
 const Category = () =>
     import ('../views/Category.vue');
 const Shopcar = () =>
-    import ('../views/Shopcar.vue');
+    import ('../views/shopcar/Shopcar.vue');
 const Profile = () =>
     import ('../views/Profile.vue');
 const Detail = () =>
@@ -39,7 +39,9 @@ export default new Router({
             path: '/detail/:iid',
             component: Detail
         }
-    ]
+    ],
+    mode: 'history'
+
 })
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {

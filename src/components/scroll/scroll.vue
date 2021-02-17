@@ -48,6 +48,7 @@ export default {
       this.bscroll && this.bscroll.finishPullUp()
     },
     scrollTo(x,y,time=200){
+      console.log(y)
       this.bscroll.scrollTo(x,y,time)
     },
     getScrollY(){

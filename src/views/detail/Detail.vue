@@ -1,5 +1,5 @@
 <template>
-  <div id="detail">
+  <div id="detail" >
     <detail-nav-bar
       class="d-navbar"
       @tab_click="tabClick"
@@ -15,7 +15,7 @@
       <good ref="recomend" :goods="recommend" />
     </scroll>
     <back-top @click.native="back_top" v-show="isShowBackTop" />
-    <detail-bottom-bar/>
+    <detail-bottom-bar @add_cart="add_cart_" />
   </div>
 </template>
 
@@ -98,9 +98,9 @@ export default {
     this.getscrollToY = debounce(() => {
       this.scrollToY = [];
       this.scrollToY.push(0);
-      this.scrollToY.push(this.$refs.params.$el.offsetTop - 44);
-      this.scrollToY.push(this.$refs.comment.$el.offsetTop - 44);
-      this.scrollToY.push(this.$refs.recomend.$el.offsetTop - 44);
+      this.scrollToY.push(this.$refs.params.$el && this.$refs.params.$el.offsetTop - 44);
+      this.scrollToY.push(this.$refs.comment.$el && this.$refs.comment.$el.offsetTop - 44);
+      this.scrollToY.push(this.$refs.recomend.$el && this.$refs.recomend.$el.offsetTop - 44);
       console.log(this.scrollToY);
     }, 200);
   },
@@ -136,6 +136,17 @@ export default {
     // back_top(){
     //   this.$refs.scroll.backtop()
     // }
+    add_cart_(){
+      //1、获取需要展示的信息
+      const product = {}
+      product.image = this.topImage[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.iid
+      //2、将商品添加到购物车
+      this.$store.dispatch('addCart',product)
+    }
   }
 };
 </script>
