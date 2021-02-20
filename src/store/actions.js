@@ -1,10 +1,14 @@
 export default {
     addCart(context, payload) {
-        let oldProduct = context.state.cartList.find(item => item.iid === payload.iid);
-        if (oldProduct) {
-            context.commit('addCount', oldProduct)
-        } else {
-            context.commit('addToCart', payload)
-        }
+        return new Promise((resolve, reject) => {
+            let oldProduct = context.state.cartList.find(item => item.iid === payload.iid);
+            if (oldProduct) {
+                context.commit('addCount', oldProduct)
+                resolve('加1')
+            } else {
+                context.commit('addToCart', payload)
+                resolve('新商品')
+            }
+        })
     },
-}
+};

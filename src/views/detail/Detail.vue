@@ -1,5 +1,5 @@
 <template>
-  <div id="detail" >
+  <div id="detail">
     <detail-nav-bar
       class="d-navbar"
       @tab_click="tabClick"
@@ -14,6 +14,7 @@
       <detail-comment ref="comment" :commentInfo="commentInfo" />
       <good ref="recomend" :goods="recommend" />
     </scroll>
+    
     <back-top @click.native="back_top" v-show="isShowBackTop" />
     <detail-bottom-bar @add_cart="add_cart_" />
   </div>
@@ -33,8 +34,10 @@ import { debounce } from "../../common/utils"; //防抖函数
 import DetailParams from "./DetailParams.vue";
 import DetailComment from "./DetailComment";
 import Good from "../../components/goods/goods.vue";
-import DetailBottomBar from './DetailBottomBar'
-import {backtopMixin} from '../../common/mixin'
+import DetailBottomBar from "./DetailBottomBar";
+import { backtopMixin } from "../../common/mixin";
+import { mapActions } from "vuex";
+
 export default {
   components: {
     DetailNavBar,
@@ -51,7 +54,7 @@ export default {
     
   },
   name: "Detail",
-  mixins:[backtopMixin],
+  mixins: [backtopMixin],
   data() {
     return {
       iid: null,
@@ -63,7 +66,8 @@ export default {
       commentInfo: {},
       recommend: [],
       scrollToY: [],
-      getscrollToY: null
+      getscrollToY: null,
+      
     };
   },
   created() {
@@ -98,9 +102,15 @@ export default {
     this.getscrollToY = debounce(() => {
       this.scrollToY = [];
       this.scrollToY.push(0);
-      this.scrollToY.push(this.$refs.params.$el && this.$refs.params.$el.offsetTop - 44);
-      this.scrollToY.push(this.$refs.comment.$el && this.$refs.comment.$el.offsetTop - 44);
-      this.scrollToY.push(this.$refs.recomend.$el && this.$refs.recomend.$el.offsetTop - 44);
+      this.scrollToY.push(
+        this.$refs.params.$el && this.$refs.params.$el.offsetTop - 44
+      );
+      this.scrollToY.push(
+        this.$refs.comment.$el && this.$refs.comment.$el.offsetTop - 44
+      );
+      this.scrollToY.push(
+        this.$refs.recomend.$el && this.$refs.recomend.$el.offsetTop - 44
+      );
       console.log(this.scrollToY);
     }, 200);
   },
@@ -112,9 +122,9 @@ export default {
       this.getscrollToY();
     });
   },
-  computed:{
-  },
+  computed: {},
   methods: {
+    ...mapActions(["addCart"]),
     tabClick(index) {
       console.log(this.scrollToY[index]);
       this.$refs.scroll.scrollTo(0, -this.scrollToY[index], 200);
@@ -122,30 +132,35 @@ export default {
     //滚动到对应区域高亮
     detailScroll(position) {
       const d_Y = -position.y;
-      this.isShowBackTop = d_Y > 2000
+      this.isShowBackTop = d_Y > 2000;
       if (d_Y > 0 && d_Y <= this.scrollToY[1]) {
         this.$refs.nav.currentIndex = 0;
-      } else if (d_Y > this.scrollToY[1] && d_Y <= this.scrollToY[2]){
+      } else if (d_Y > this.scrollToY[1] && d_Y <= this.scrollToY[2]) {
         this.$refs.nav.currentIndex = 1;
-      } else if (d_Y > this.scrollToY[2] && d_Y <= this.scrollToY[3]){
+      } else if (d_Y > this.scrollToY[2] && d_Y <= this.scrollToY[3]) {
         this.$refs.nav.currentIndex = 2;
-      } else if( d_Y > this.scrollToY[3])
-        this.$refs.nav.currentIndex = 3;
+      } else if (d_Y > this.scrollToY[3]) this.$refs.nav.currentIndex = 3;
     },
     //点击返回顶部
     // back_top(){
     //   this.$refs.scroll.backtop()
     // }
-    add_cart_(){
+    add_cart_() {
       //1、获取需要展示的信息
-      const product = {}
+      const product = {};
       product.image = this.topImage[0];
       product.title = this.goods.title;
       product.desc = this.goods.desc;
       product.price = this.goods.realPrice;
-      product.iid = this.iid
+      product.iid = this.iid;
       //2、将商品添加到购物车
-      this.$store.dispatch('addCart',product)
+      // this.$store.dispatch("addCart", product).then(res => {
+      //   console.log(res);
+      // });
+      this.addCart(product).then(res => {
+        this.$toast.show(res,2000)
+        
+      });
     }
   }
 };
@@ -170,6 +185,12 @@ export default {
 .content {
   height: calc(100% - 44px - 44px);
   background-color: #fff;
+}
+.toast{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 .D-tabbar {
   background-color: aliceblue;

@@ -27,7 +27,7 @@ export default {
 
     })
     this.bscroll.on('scroll',(position)=>{
-      // console.log(position)
+      console.log(position)
       this.$emit('scroll',position)
     })
     this.bscroll.on('pullingUp',()=>{
